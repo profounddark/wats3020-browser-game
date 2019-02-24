@@ -65,8 +65,7 @@ class TicTacToe {
       ];
   }
 
-  // This `checkForWinner()` method is provided for you, but you must fill in
-  // the event dispatch lines that cause the end game screens to show.
+
   checkForWinner()
   {
     for (let condition of this.winStates){
@@ -102,25 +101,23 @@ class TicTacToe {
     }
 }
 
-  recordMove(event)
-  {
-      // This method handles recording a move in the `this.gameState` property.
-      // To record a move, we must accmoplish the following:
-
-      // 1. Find the X, Y coordinates of the tile that was just selected
-      // 2. Claim that tile in the `this.gameState` array
-      // 3. Set the class attribute of the tile to reflect which player has claimed it
+recordMove(event)
+{
+    // This method handles recording a move in the `this.gameState` property.
+    // To record a move, we must accmoplish the following:
+    // 1. Find the X, Y coordinates of the tile that was just selected
+    // 2. Claim that tile in the `this.gameState` array
+    // 3. Set the class attribute of the tile to reflect which player has claimed it
     let tile_x = event.target.getAttribute("data-x");
     let tile_y = event.target.getAttribute("data-y");
         
     this.gameState[tile_x][tile_y] = game.currentPlayer.token;
-
     event.target.setAttribute('class', 'tile played fas fa-'+this.currentPlayer.token);
-    // This prevents a player from claiming on an occupied space.
+    // This prevents a player from claiming on an occupied space by removing the listener.
     event.target.removeEventListener("click", handleMove);
-  }
-  switchPlayer()
-  {
+}
+switchPlayer()
+{
     if (this.currentPlayer == this.player1)
     {
         this.currentPlayer = this.player2;
@@ -130,61 +127,58 @@ class TicTacToe {
         this.currentPlayer = this.player1;
     }
     this.currentPlayerToken.setAttribute("class", "fas fa-"+this.currentPlayer.token);
+}
 
-  }
-
-  setUpTileListeners()
-  {
-      // This method sets up event listeners for tiles. It is called when we
-      // start a new game. It must find all the tiles and apply event listeners
-      // to them.
-    let tileElements = document.querySelectorAll(".tile");
-    for (let tile of tileElements)
+    setUpTileListeners()
     {
-        tile.addEventListener("click", handleMove);
-    }
-  }
-
-  showWinScreen()
-  {
-    // This method displays the end game screen for a Win.
-    this.winScreen.setAttribute("class", "show");
-    this.winnerToken.setAttribute("class", "fas fa-"+this.winner.token);
-  }
-  showDrawScreen()
-  {
-    this.drawScreen.setAttribute("class", "show");
-  }
-  setUpBoard()
-  {
-    this.gameboard.innerHTML = "";
-
-      // We must draw the game board by using a loop to create rows with
-      // tiles in them. We want to create the same structure as we see in the
-      // index.html file.
-
-    for (let i = 0; i < 3; i++)
-    {
-        let newRow = document.createElement("div");
-        newRow.setAttribute("class", "row");
-        for (let j = 0; j < 3; j++)
+        // This method sets up event listeners for tiles. It is called when we
+        // start a new game. It must find all the tiles and apply event listeners
+        // to them.
+        let tileElements = document.querySelectorAll(".tile");
+        for (let tile of tileElements)
         {
-            let newCol = document.createElement("div");
-            newCol.setAttribute("class", "col-xs-3");
-            let newTile = document.createElement("span");
-            newTile.setAttribute('class', 'tile fas fa-question');
-            newTile.setAttribute("data-x", j);
-            newTile.setAttribute("data-y", i);
-
-            newCol.appendChild(newTile);
-            newRow.appendChild(newCol);
+            tile.addEventListener("click", handleMove);
         }
-        this.gameboard.appendChild(newRow);
     }
-      
-    this.setUpTileListeners();
-    
-  }
+     
+    showWinScreen()
+    {
+        // This method displays the end game screen for a Win.
+        this.winScreen.setAttribute("class", "show");
+        this.winnerToken.setAttribute("class", "fas fa-"+this.winner.token);
+    }
+
+    showDrawScreen()
+    {
+        this.drawScreen.setAttribute("class", "show");
+    }
+
+    setUpBoard()
+    {
+        //clear the board
+        this.gameboard.innerHTML = "";
+
+        for (let i = 0; i < 3; i++)
+        {
+            let newRow = document.createElement("div");
+            newRow.setAttribute("class", "row");
+            for (let j = 0; j < 3; j++)
+            {
+                let newCol = document.createElement("div");
+                newCol.setAttribute("class", "col-xs-3");
+                let newTile = document.createElement("span");
+                newTile.setAttribute('class', 'tile fas fa-question');
+                newTile.setAttribute("data-x", j);
+                newTile.setAttribute("data-y", i);
+                newCol.appendChild(newTile);
+                newRow.appendChild(newCol);
+            }
+            this.gameboard.appendChild(newRow);
+        }
+
+        this.setUpTileListeners();
+
+    }
     initializeMovePrompt()
     {
         this.startPrompt.setAttribute("class", "hidden");
